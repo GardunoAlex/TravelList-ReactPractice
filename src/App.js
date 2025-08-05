@@ -24,9 +24,14 @@ export default function App(){
     );
   }
   function Form(){
+
+    function handleSubmit(e){
+      e.preventDefault();
+    }
+
     return(
-      <form className="add-form">
-        <h3>What do youneed for your trip?</h3>
+      <form className="add-form" onSubmit={handleSubmit}>
+        <h3>What do you need for your trip?</h3>
         <select>
           {/*
           array.from: basically creating an array in place I believe
@@ -38,6 +43,10 @@ export default function App(){
             {num}
           </option> )}
         </select>
+        <input type="text" placeholder="Item..."></input>
+        <button >
+          Submit
+        </button>
       </form>
 
     );
