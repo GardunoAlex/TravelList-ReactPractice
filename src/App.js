@@ -1,4 +1,7 @@
 
+
+import { useState } from "react";
+
 const initialItems = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
   { id: 2, description: "Socks", quantity: 12, packed: true },
@@ -24,16 +27,49 @@ export default function App(){
     );
   }
   function Form(){
+    /**
+     * description, this is the variable that we will use to update and show what the user is typing in the description box. 
+     * quantity, this is the variable that we will use to update the quantity that the user chooses. 
+     */
+    const [description, setDescription] = useState("");
+    const [quantity, setQuantity] = useState(0);
 
     function handleSubmit(e){
       e.preventDefault();
+      
+      // if there was no description submitted, just return nothing -- do nothing basically. 
+      if (!description){
+        return;
+      }
+
+      // object for a new item
+      const newItem = { description, quantity, packed: false, id: Date.now() };
+      
+      console.log(newItem);
+
+      // setting the variables back to there initial states, so that the submit park
+      setDescription("");
+      setQuantity(1);
+  
     }
 
     return(
-      <form className="add-form" onSubmit={handleSubmit}>
+    
+      <form className="add-form" onSubmit={handleSubmit} >
         <h3>What do you need for your trip?</h3>
-        <select>
+
+        {/**
+         * For the "select" section -- where the user chooses a number -- we will assign the value of that sections as quantity. 
+        * when the quantity changes, we activate the "onChange" fucntion. We then set the quantity to whatever the user chose -- e.target.value
+        * We have to use the Number() function since e.target.value technically returns a string, not a num. 
+         */}
+
+        <select value={quantity} onChange={ (e) => setQuantity(Number(e.target.value))}>
           {/*
+
+          (e) is the event. need to do more research on how events actually work. 
+
+
           array.from: basically creating an array in place I believe
           lenght of 20, idek what the _ is supposed to represent. 
           then you do the .map - so everything before it is just treated as an array
@@ -43,7 +79,14 @@ export default function App(){
             {num}
           </option> )}
         </select>
-        <input type="text" placeholder="Item..."></input>
+        {/*
+        type, is the data type I think 
+        placeholder, is what comes up in the type in box. 
+        value, is the variable that we're assigning
+        as the thing inside the box is changing, we are updating "value" and displaying it in the box. 
+        That's what we're using setDescription() for in this case. 
+        */}
+        <input type="text" placeholder="Item..." value={description} onChange={ (e) => setDescription(e.target.value)}></input>
         <button >
           Submit
         </button>
